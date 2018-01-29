@@ -1,0 +1,32 @@
+<html>
+<head></head>
+<body>
+
+<div>
+  Microblog:
+  <a href="/">Home</a>
+  <a href="/blog">Blog</a>
+</div>
+
+<h1>This is a blog</h1>
+
+<form action="" method="post">
+  Name: <input type="text" name="name" value="">
+  <br>
+  Comment: <input type="text" name="comment" value="">
+  <br>
+  <input type="submit" value="Submit" name="blog">
+</form>
+
+<div>
+  {% for post in posts %}
+  <div id="container">
+    <b>{{ post.name }}</b>
+    <br>
+    {{post.comment}}
+  </div>
+  {% endfor %}
+</div>
+
+</body>
+</html>
