@@ -1,32 +1,37 @@
 <html>
-<head></head>
-<body>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+  </head>
+  <body>
 
-<div>
-  Microblog:
-  <a href="/">Home</a>
-  <a href="/blog">Blog</a>
-</div>
+    <div>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a class="active" href="blog">Blog</a></li>
+      </ul>
+    </div>
 
-<h1>This is a blog</h1>
+    <h1>This is a blog</h1>
 
-<form action="" method="post">
-  Name: <input type="text" name="name" value="">
-  <br>
-  Comment: <input type="text" name="comment" value="">
-  <br>
-  <input type="submit" value="Submit" name="blog">
-</form>
+    <form action="" method="post">
+      <span id="label">Name: </span><input type="text" name="name" value="">
+      <br>
+      <span id="label">Comment: </span><input type="text" name="comment" value="">
+      <br>
+      <input type="submit" value="Submit" name="blog">
+    </form>
 
-<div>
-  {% for post in posts %}
-  <div id="container">
-    <b>{{ post.name }}</b>
-    <br>
-    {{post.comment}}
-  </div>
-  {% endfor %}
-</div>
+    <div>
+      {% for post in posts %}
+      <div id="post">
+        <b>{{ post.name }}</b>
+        <br>
+        {{post.date}}
+        <hr>
+        {{post.comment}}
+      </div>
+      {% endfor %}
+    </div>
 
-</body>
+  </body>
 </html>

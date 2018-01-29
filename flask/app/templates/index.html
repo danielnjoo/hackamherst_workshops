@@ -1,22 +1,24 @@
 <html>
-<head></head>
-<body>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+  </head>
 
-<div>
-  Microblog:
-  <a href="/">Home</a>
-  <a href="/blog">Blog</a>
-</div>
+  <body>
 
-<h1>Hello {{name}}</h1>
+    <div>
+      <ul>
+        <li><a class="active" href="/">Home</a></li>
+        <li><a href="blog">Blog</a></li>
+      </ul>
+    </div>
 
-<form action="" method="post">
-  Name: <input type="text" name="name" value="">
-  <br>
-  <input type="submit" value="Submit">
-</form>
+    <h1>Hello {{name}}</h1>
 
+    <form action="" method="post">
+      Name: <input type="text" name="name" value="">
+      <br>
+      <input type="submit" value="Submit">
+    </form>
 
-
-</body>
+  </body>
 </html>
