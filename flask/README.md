@@ -4,7 +4,21 @@ What you'll build: a website with two pages (1) home that takes a user's name an
 
 Example: https://blooming-springs-99416.herokuapp.com/
 
-### Step 0: setting up your environment
+### 0-60 Real Fast
+
+- `git clone https://github.com/danielnjoo/hackamherst_workshops.git`, install git [here](https://git-scm.com/downloads) if you don't have it
+- install `pip` [here](https://pip.pypa.io/en/stable/installing/)
+- use pip to install `pymongo` and `flask`: `pip install pymongo flask`
+- create a heroku account and download the heroku CLI tools [here](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) 
+- create a new heroku app, and add attach a mLab mongoDB instance to it
+- go to your mLab sandbox and create a user, and enter the username/pw into `routes.py` on line 10
+- save `routes.py`, and commit it `git commit -am "added user/pw"`
+- login to heroku from terminal `heroku login`
+- create a heroku app with the python buildpack `heroku create --buildpack heroku/python`
+- add your heroku remote to git: `git remote add heroku https://git.heroku.com/____your_app_____`
+- push your changes to your heroku remote: `git push remote heroku --set-upstream`
+
+### Step 0: Setting up your environment
 
 - Python
   - Python is a great human-readable language, which makes it perfect for a foray into web development
@@ -82,6 +96,7 @@ __Extension:__
 ### Stretch: Step 7: Implement a DB!
 Commit hash: e7a3ca2f25d911deda3a7d424b54b586c7583004
 
+- Make sure to fill in your username/pw details in the connect URI!
 - First we download `pymongo` via `pip install pymongo`, we then add this to `requirements.txt` to make sure heroku knows to download it during deployment 
 - Using heroku, we then attach a mLab MongoDB instance, and post comments (documents) to a collection inside our database, which we then pull every time somebody views the page    
   - DB hierarchy: DB > Collection > Documents
