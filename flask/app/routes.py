@@ -1,11 +1,18 @@
 from flask import render_template
 from flask import request
 from flask import jsonify
+from pymongo import MongoClient
+
 from app import app
 
 import datetime
 
-posts = []
+client = MongoClient('mongodb://__username__:__password__@ds119078.mlab.com:19078/__dbname__’)
+db = client.__dbname__
+# help(db.test) # get all the methods for a mongoDB collection
+
+def get_posts():
+    return db.test.find().sort('date', -1)
 
 @app.route('/', methods=['GET', 'POST'])
 def microblog():
@@ -26,7 +33,7 @@ def blog():
         print "comment:", comment
         print "date:", date
 
-        posts.insert(0, {'name': name, 'comment': comment, 'date': date})
-        return render_template('blog.html', title='Blog', posts=posts)
+        db.test.insert_one({'name': name, 'comment': comment, 'date': date})
+        return render_template('blog.html', title='Blog', posts=get_posts())
 
-    return render_template('blog.html', title='Blog')
+    return render_template('blog.html', title='Blog', posts=get_posts())
