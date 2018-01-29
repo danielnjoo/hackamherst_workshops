@@ -76,3 +76,13 @@ Commit hash: e6f2f3c7c6b53d19d1c98ed2f923a7d566d78faf
   - Add your heroku remote to git: `git remote add heroku https://git.heroku.com/____your_app_____`
   - Push your files to that remote: `git push heroku master`
   
+__Extension:__
+- One of the issues with the current implementation is that it none of the comments persist! How might you go about fixing this?? Answer: database! Step 7 goes over this using MongoDB and a Python package called `pymongo`.
+  
+### Stretch: Step 7: Implement a DB!
+Commit hash: e7a3ca2f25d911deda3a7d424b54b586c7583004
+
+- First we download `pymongo` via `pip install pymongo`, we then add this to `requirements.txt` to make sure heroku knows to download it during deployment 
+- Using heroku, we then attach a mLab MongoDB instance, and post comments (documents) to a collection inside our database, which we then pull every time somebody views the page    
+  - DB hierarchy: DB > Collection > Documents
+
