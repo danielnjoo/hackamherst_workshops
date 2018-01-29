@@ -7,8 +7,8 @@ from app import app
 
 import datetime
 
-client = MongoClient('mongodb://__username__:__password__@ds119078.mlab.com:19078/__dbname__’)
-db = client.__dbname__
+client = MongoClient('mongodb://test:test@ds119078.mlab.com:19078/heroku_2f9zr1zs')
+db = client.heroku_2f9zr1zs
 # help(db.test) # get all the methods for a mongoDB collection
 
 def get_posts():
