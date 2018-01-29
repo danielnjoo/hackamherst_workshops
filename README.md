@@ -18,3 +18,7 @@ E.g.:
 
 - Checkout the first commit of the Flask project: `git checkout dc70356b8c173ab2782e3160e234fd81eb430afa`
 
+## Additional work - highly recommended!
+
+1. Learn HTML: [codecademy](https://www.codecademy.com/learn/learn-html)
+2. Learn CSS: [codecademy](https://www.codecademy.com/learn/learn-css)
