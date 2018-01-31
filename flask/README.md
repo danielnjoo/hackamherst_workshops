@@ -16,7 +16,7 @@ Example: https://blooming-springs-99416.herokuapp.com/
 - login to heroku from terminal `heroku login`
 - create a heroku app with the python buildpack `heroku create --buildpack heroku/python`
 - add your heroku remote to git: `git remote add heroku https://git.heroku.com/____your_app_____`
-- push your changes to your heroku remote: `git push remote heroku --set-upstream`
+- push your changes to your heroku remote: `git push heroku --set-upstream`
 
 ### Step 0: Setting up your environment
 
