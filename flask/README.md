@@ -9,7 +9,7 @@ Example: https://blooming-springs-99416.herokuapp.com/
 - `git clone https://github.com/danielnjoo/hackamherst_workshops.git`, install git [here](https://git-scm.com/downloads) if you don't have it
 - install `pip` [here](https://pip.pypa.io/en/stable/installing/)
 - use pip to install `pymongo` and `flask`: `pip install pymongo flask`
-- create a heroku account and download the heroku CLI tools [here](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) 
+- create a heroku account and download the heroku CLI tools [here](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
 - create a new heroku app, and add attach a mLab mongoDB instance to it
 - go to your mLab sandbox and create a user, and enter the username/pw into `routes.py` on line 10
 - save `routes.py`, and commit it `git commit -am "added user/pw"`
@@ -29,7 +29,7 @@ Example: https://blooming-springs-99416.herokuapp.com/
 - Flask
   - Flask is a 'micro web development framework' that uses Python, awesome
   - `pip install flask`
- 
+
 ### Step 1: Hello World!
 Commit hash: dc70356b8c173ab2782e3160e234fd81eb430afa
 
@@ -50,7 +50,7 @@ flask
   - `export FLASK_APP=microblog.py"
 - We can now run it with `flask run`
   - Go to your browser and view [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
-  
+
 ### Step 2: Take user input and update the view
 Commit hash: 58f391ebe26c94a09c1ec1df1c6a67253b8dce2a
 
@@ -89,15 +89,20 @@ Commit hash: e6f2f3c7c6b53d19d1c98ed2f923a7d566d78faf
   - Create an app with the Python buildpack: `heroku create --buildpack heroku/python`
   - Add your heroku remote to git: `git remote add heroku https://git.heroku.com/____your_app_____`
   - Push your files to that remote: `git push heroku master`
-  
+
 __Extension:__
 - One of the issues with the current implementation is that it none of the comments persist! How might you go about fixing this?? Answer: database! Step 7 goes over this using MongoDB and a Python package called `pymongo`.
-  
+
 ### Stretch: Step 7: Implement a DB!
 Commit hash: e7a3ca2f25d911deda3a7d424b54b586c7583004
 
 - Make sure to fill in your username/pw details in the connect URI!
-- First we download `pymongo` via `pip install pymongo`, we then add this to `requirements.txt` to make sure heroku knows to download it during deployment 
+- First we download `pymongo` via `pip install pymongo`, we then add this to `requirements.txt` to make sure heroku knows to download it during deployment
 - Using heroku, we then attach a mLab MongoDB instance, and post comments (documents) to a collection inside our database, which we then pull every time somebody views the page    
   - DB hierarchy: DB > Collection > Documents
 
+### Stretch: Step 8: Now we have a DB, what about some likes?
+Commit hash: 300b3e5a3c6f0a06ccd30b5c9cbb3ea009155f78
+
+- Here we add a like button and a new route in `routes.py` that finds the comment that was liked (using the date as an ID — which isn't good in production code, but will suffice here)
+  - It then retrieves the current like count from the DB, increments it, then posts it back :)
