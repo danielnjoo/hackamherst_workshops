@@ -6,8 +6,9 @@ Example: https://blooming-springs-99416.herokuapp.com/
 
 ### 0-60 Real Fast
 
+- assumes installation of git, pip, python 2.7
 - `git clone https://github.com/danielnjoo/hackamherst_workshops.git`, install git [here](https://git-scm.com/downloads) if you don't have it
-- install `pip` [here](https://pip.pypa.io/en/stable/installing/)
+- go into the flask directory `cd flask`, and initialize a new git repository `git init`
 - use pip to install `pymongo` and `flask`: `pip install pymongo flask`
 - create a heroku account and download the heroku CLI tools [here](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
 - create a new heroku app, and attach a mLab mongoDB instance to it
