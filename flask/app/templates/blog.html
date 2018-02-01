@@ -1,6 +1,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <body>
 
@@ -13,7 +14,7 @@
 
     <h1>This is a blog</h1>
 
-    <form action="" method="post">
+    <form id="form" action="" method="post">
       <span id="label">Name: </span><input type="text" name="name" value="">
       <br>
       <span id="label">Comment: </span><input type="text" name="comment" value="">
@@ -23,13 +24,17 @@
 
     <div>
       {% for post in posts %}
-      <div id="post">
-        <b>{{ post.name }}</b>
-        <br>
-        {{post.date}}
-        <hr>
-        {{post.comment}}
-      </div>
+        <div id="post" class="col-sm-9">
+          <b>{{ post.name }}</b>
+          <br>
+          {{post.date}}
+          <hr>
+          <span>{{post.comment}}</span>
+          <form action="{{post.date}}" method="post">
+            <input value="like" id="img" type="image" src="/static/like.png"/>
+          </form>
+          <span id="likes">{{post.likes}}</span>
+        </div>
       {% endfor %}
     </div>
 

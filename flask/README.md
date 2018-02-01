@@ -4,19 +4,27 @@ What you'll build: a website with two pages (1) home that takes a user's name an
 
 Example: https://blooming-springs-99416.herokuapp.com/
 
+### Learning Outcomes
+
+- introduction to the front-end: HTML/CSS
+- introduction to the back-end (with Flask): Python to serve files, and mongodb to persist data
+- implementation of a [model-view-controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller), i.e. takes user input, passes it to the server, does some compute/modification of the database, and refresh the view
+
 ### 0-60 Real Fast
 
-- `git clone https://github.com/danielnjoo/hackamherst_workshops.git`, install git [here](https://git-scm.com/downloads) if you don't have it
-- install `pip` [here](https://pip.pypa.io/en/stable/installing/)
+__Assumes installation of git, pip, python 2.7__ (which comes loaded on MacOS)
+- clone the entire workshop folder`git clone https://github.com/danielnjoo/hackamherst_workshops.git`
+- go into the flask directory `cd flask`, and initialize a new git repository `git init`
 - use pip to install `pymongo` and `flask`: `pip install pymongo flask`
-- create a heroku account and download the heroku CLI tools [here](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) 
-- create a new heroku app, and add attach a mLab mongoDB instance to it
-- go to your mLab sandbox and create a user, and enter the username/pw into `routes.py` on line 10
-- save `routes.py`, and commit it `git commit -am "added user/pw"`
+- create a heroku account and download the heroku CLI tools [here](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+- create a new heroku app, and attach a mLab mongoDB instance to it
+  - optional if you want to use your own DB, otherwise you can use mine: go to your mLab sandbox and create a user, and enter the username/pw into `routes.py` on line 10
+  - save `routes.py`, and stage all files `git add .`, then commit it `git commit -am "added user/pw"`
+- stage all the files `git add .`, then commit it `git commit -am "first"`
 - login to heroku from terminal `heroku login`
 - create a heroku app with the python buildpack `heroku create --buildpack heroku/python`
-- add your heroku remote to git: `git remote add heroku https://git.heroku.com/____your_app_____`
-- push your changes to your heroku remote: `git push remote heroku --set-upstream`
+- add your heroku remote (the second link that ends with .git) to git: `git remote add heroku https://git.heroku.com/____your_app_____.git`
+- push your changes to your heroku remote: `git push --set-upstream heroku master`
 
 ### Step 0: Setting up your environment
 
@@ -29,7 +37,7 @@ Example: https://blooming-springs-99416.herokuapp.com/
 - Flask
   - Flask is a 'micro web development framework' that uses Python, awesome
   - `pip install flask`
- 
+
 ### Step 1: Hello World!
 Commit hash: dc70356b8c173ab2782e3160e234fd81eb430afa
 
@@ -50,7 +58,7 @@ flask
   - `export FLASK_APP=microblog.py"
 - We can now run it with `flask run`
   - Go to your browser and view [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
-  
+
 ### Step 2: Take user input and update the view
 Commit hash: 58f391ebe26c94a09c1ec1df1c6a67253b8dce2a
 
@@ -84,20 +92,26 @@ Commit hash: e6f2f3c7c6b53d19d1c98ed2f923a7d566d78faf
   - `runtime.txt` — tells heroku which Python version to use
   - `requirements.txt` - tells heroku which dependencies our application is using
   - `Procfile` — tells heroku how to start our web app
+    - __make sure it's capitalized!__ it's not in the current Step5/6 versions
 - You'll need to create a heroku account and [download](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) the heroku command line tools, which can be done via Brew / heroku's installer. Then:
   - Login: `heroku login`
   - Create an app with the Python buildpack: `heroku create --buildpack heroku/python`
-  - Add your heroku remote to git: `git remote add heroku https://git.heroku.com/____your_app_____`
-  - Push your files to that remote: `git push heroku master`
-  
+  - Add your heroku remote to git: `git remote add heroku https://git.heroku.com/____your_app_____.git`
+  - Push your files to that remote: `git push --set-upstream heroku master`
+
 __Extension:__
 - One of the issues with the current implementation is that it none of the comments persist! How might you go about fixing this?? Answer: database! Step 7 goes over this using MongoDB and a Python package called `pymongo`.
-  
+
 ### Stretch: Step 7: Implement a DB!
 Commit hash: e7a3ca2f25d911deda3a7d424b54b586c7583004
 
 - Make sure to fill in your username/pw details in the connect URI!
-- First we download `pymongo` via `pip install pymongo`, we then add this to `requirements.txt` to make sure heroku knows to download it during deployment 
+- First we download `pymongo` via `pip install pymongo`, we then add this to `requirements.txt` to make sure heroku knows to download it during deployment
 - Using heroku, we then attach a mLab MongoDB instance, and post comments (documents) to a collection inside our database, which we then pull every time somebody views the page    
   - DB hierarchy: DB > Collection > Documents
 
+### Stretch: Step 8+: Now we have a DB, what about some likes?
+Commit hash: c6f37ea4acf3375987f9ae42900facacd476520b
+
+- Here we add a like button and a new route in `routes.py` that finds the comment that was liked (using the date as an ID — which isn't good in production code, but will suffice here)
+  - It then retrieves the current like count from the DB, increments it, then posts it back :)
