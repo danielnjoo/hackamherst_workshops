@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "firebase": "^4.9.0",
     "jest-expo": "25.0.0",
+    "react-native-dotenv": "^0.1.1",
     "react-native-scripts": "1.11.1",
     "react-test-renderer": "16.2.0"
   },

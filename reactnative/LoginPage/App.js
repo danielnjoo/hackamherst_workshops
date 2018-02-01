@@ -1,14 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, TextInput } from 'react-native';
+import { Alert, StyleSheet, Text, View, ImageBackground, TextInput } from 'react-native';
 import { Button } from 'react-native-elements';
 import firebase from 'firebase';
 import {
-   FIREBASE_API_KEY,
-   AUTH_DOMAIN,
-   DATABASE_URL,
-   FIREBASE_PROJECT_ID,
-   FIREBASE_STORAGE_BUCKET,
-   MESSAGE_ID
+  FIREBASE_API_KEY,
+  AUTH_DOMAIN,
+  DATABASE_URL,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  MESSAGE_ID
 } from 'react-native-dotenv';
 
 export default class App extends React.Component {
@@ -23,9 +23,32 @@ export default class App extends React.Component {
       storageBucket: FIREBASE_STORAGE_BUCKET,
       messagingSenderId: MESSAGE_ID
     });
+    this.state = { email: '', password: '' }
   }
 
- 
+  handlePasswordReset = () => {
+    firebase.auth().sendPasswordResetEmail(this.state.email).then(function () {
+      Alert.alert("Success", "Reset password email sent.");
+    }).catch(function (error) {
+      Alert.alert("Oops!", "Reset password email couldn't be sent.");
+    });
+  }
+
+  handleLogin = () => {
+    const { email, password } = this.state;
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => { Alert.alert("Success!", "You're all set.") })
+      .catch(() => {
+        Alert.alert("Login Failed!", "Incorrect Email/Password.",
+          [
+            { text: 'Send Reset Password Email', onPress: this.handlePasswordReset },
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+          { cancelable: false }
+        );
+      });
+  }
+
   render() {
     return (
       <ImageBackground
@@ -41,18 +64,27 @@ export default class App extends React.Component {
               style={styles.input}
               placeholder="Email"
               placeholderTextColor="white"
+              value={this.state.email}
+              onChangeText={(newEmail) => this.setState({ email: newEmail })}
+              autoCapitalize="none"
+              spellCheck={false}
             />
             <TextInput
               style={styles.input}
               placeholder="Password"
               placeholderTextColor="white"
               secureTextEntry={true}
+              value={this.state.password}
+              onChangeText={(newPass) => this.setState({ password: newPass })}
+              autoCapitalize="none"
+              spellCheck={false}
             />
           </View>
           <Button
             title='LOG IN'
             buttonStyle={styles.button}
             textStyle={{ fontWeight: 'bold', color: 'white' }}
+            onPress={this.handleLogin}
           />
         </View>
       </ImageBackground>
