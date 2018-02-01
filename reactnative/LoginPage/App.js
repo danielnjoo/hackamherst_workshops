@@ -1,8 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, TextInput } from 'react-native';
-import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements';
+import firebase from 'firebase';
+import {
+   FIREBASE_API_KEY,
+   AUTH_DOMAIN,
+   DATABASE_URL,
+   FIREBASE_PROJECT_ID,
+   FIREBASE_STORAGE_BUCKET,
+   MESSAGE_ID
+} from 'react-native-dotenv';
 
 export default class App extends React.Component {
+
+  constructor() {
+    super();
+    firebase.initializeApp({
+      apiKey: FIREBASE_API_KEY,
+      authDomain: AUTH_DOMAIN,
+      databaseURL: DATABASE_URL,
+      projectId: FIREBASE_PROJECT_ID,
+      storageBucket: FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: MESSAGE_ID
+    });
+  }
+
+ 
   render() {
     return (
       <ImageBackground
