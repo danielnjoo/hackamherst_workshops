@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootbot": "^1.0.14"
+    "bootbot": "^1.0.14",
+    "dotenv": "^5.0.0",
+    "node-env-file": "^0.1.8"
   }
 }
