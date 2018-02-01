@@ -4,15 +4,21 @@ What you'll build: a website with two pages (1) home that takes a user's name an
 
 Example: https://blooming-springs-99416.herokuapp.com/
 
+### Learning Outcomes
+
+- introduction to the front-end: HTML/CSS
+- introduction to the back-end (with Flask): Python to serve files, and mongodb to persist data
+- implementation of a [model-view-controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller), i.e. takes user input, passes it to the server, does some compute/modification of the database, and refresh the view
+
 ### 0-60 Real Fast
 
-- assumes installation of git, pip, python 2.7
-- `git clone https://github.com/danielnjoo/hackamherst_workshops.git`, install git [here](https://git-scm.com/downloads) if you don't have it
+__Assumes installation of git, pip, python 2.7__ (which comes loaded on MacOS)
+- clone the entire workshop folder`git clone https://github.com/danielnjoo/hackamherst_workshops.git`
 - go into the flask directory `cd flask`, and initialize a new git repository `git init`
 - use pip to install `pymongo` and `flask`: `pip install pymongo flask`
 - create a heroku account and download the heroku CLI tools [here](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
 - create a new heroku app, and attach a mLab mongoDB instance to it
-  - optional if you want to use your own DB, otherwise you can use mine: go to your mLab sandbox and create a user, and enter the username/pw into `routes.py` on line 10 
+  - optional if you want to use your own DB, otherwise you can use mine: go to your mLab sandbox and create a user, and enter the username/pw into `routes.py` on line 10
   - save `routes.py`, and stage all files `git add .`, then commit it `git commit -am "added user/pw"`
 - stage all the files `git add .`, then commit it `git commit -am "first"`
 - login to heroku from terminal `heroku login`
