@@ -3,7 +3,9 @@
 
 What you'll build: a login application for a travel site where a user can enter a username and password to gain access to a particular account or region of a site.
 
-Example: TBD
+What you'll build:
+<br/>
+<img src="https://github.com/danielnjoo/hackamherst_workshops/blob/master/reactnative/demo.png" width="400">
 
 ### 0-60 Real Fast
 
@@ -13,6 +15,7 @@ Example: TBD
 - Download the [Expo](https://expo.io/) app for your apple or android smartphone, and connect your phone to the same WiFi as your computer
 
 ### Step 0: Setting up your environment
+Commit hash: N/A
 
 - `Node.js` is a JavaScript runtime engine that allows web server creation in pure, beautiful JavaScript
 - `npm` is an essential package manager for JavaScript - any package is only one quick `npm install` away. `npm install girlfriend` has had mixed results for CS majors in the past.
@@ -20,7 +23,7 @@ Example: TBD
 - `Expo` is a service that allows easy simulation of your app, possibly the coolest feature of React Native
 
 ### Step 1: Wow, React Native is so cool, holy cow.
-Commit hash: XXXXX
+Commit hash: N/A
 
 If the following process doesn't blow your mind, then you have my respect.
 
@@ -47,7 +50,7 @@ LoginApp
 - Congrats! You just created your first React Native app.
 
 ### Step 2: Setting up the basic UI
-Commit hash: XXXXX
+Commit hash: ea3d168e60195fbf9b482d4d7768ecac6f0fc84b
 
 We're going to be using some component libraries to minimize the amount of styling that we have to do ourselves.
 
@@ -141,6 +144,7 @@ Try reloading the app, and take a look! Next, we're going to set up the back-end
 
 
 ### Step 3: Backend with Firebase 
+Commit hash: 99f298b925f79efd779cb26e12db9db5d532e927
 
 Traditionally backend is a pain. When building JavaScript projects, many developers turn to frameworks such as Django (for Python) or Node.js. Django and Node.js are still essential for large projects requiring significant control and customization, but to get up and running quickly, we're going to use Google's free backend API: Firebase.
 
@@ -175,6 +179,7 @@ There's two components to this section. The remote setup on the Firebase website
   That's it for the back end! Next, we're going to set our App up to actually validate.
 
   ### Step 4: Validation and finishing touches 
+  Commit hash: d211bd1b20561ba929f43f2ac76fbb86d68563c6
 
   Our backend is set up, and we've created a user. Now's the time to make it functional. First, a couple housekeeping items:
 
