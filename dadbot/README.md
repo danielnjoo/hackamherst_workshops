@@ -172,7 +172,7 @@ https.get('https://encrypted.google.com/', (res) => {
 
 ### Step 5: Onto the good stuff
 
-Commit hash:
+Commit hash: 5a88f3bff49d2dc674f75f3f779daebc93e2299c
 
 - so let's get those jokes. Again referring to the https documentation (a really important skill you'll have to pick up when there aren't any more tutorials!) we can see that the `https.get()` method takes an `options` object, and a `callback` function. The object basically sets the parameters of our request (as we did via with the hyphens in the cURL request), and the callback lets us use the results of our request because it's executed after the main function is called; it's a little confusing:
   - according to MDN: A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action, [link](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function)
@@ -213,3 +213,45 @@ https.get(options, (res) => {
 ```
 
 - run `npm start` again. Awesome.
+
+### Step 6: Jokes + Messenger
+
+Commit hash:
+
+- so now we're getting the jokes printed back to us in terminal... all we have to do is do this inside the `bot.on('message')` function, and pass our joke to `chat.say()`... try it yourself, if not scroll down:
+
+Your final code should look like:
+
+```
+const https = require('https')
+const BootBot = require('bootbot');
+const bot = new BootBot({
+  accessToken: process.env.accessToken, // FILL IN WITH UR INFO
+  verifyToken: 'super_secure_password', // EXAMPLE PW
+  appSecret: process.env.appSecret // FILL IN WITH UR INFO
+})
+
+const options = {
+  host: 'icanhazdadjoke.com',
+  path: '/',
+  headers: {
+    'Accept': 'text/plain',
+    'User-Agent': 'My Facebook Page (https://www.facebook.com/DadBot-288767724972679/)' // this part is optional, but good practice so the owner of the website knows who's sending him requests
+  }
+}
+
+bot.on('message', (payload, chat) => {
+  console.log('message received')
+  https.get(options, (res) => {
+    res.on('data', (d) => {
+      chat.say(d.toString('utf8'));
+    });
+  }).on('error', (e) => {
+    console.error(e);
+  });
+});
+
+bot.start();
+```
+
+![Imgur](https://i.imgur.com/92CJSGj.png)
