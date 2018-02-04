@@ -84,7 +84,7 @@ project
 - then you'll need to __subscribe__ Messenger to your page
 - finally, fill in the Verify Token field which will correspond to whatever `verifyToken` you set in the bootbot configs; it should look like this:
 
-![Imgur](https://i.imgur.com/a/Q7ugc.png)
+![Imgur](https://i.imgur.com/v3UHjkI.png)
 
 - run `npm start`, and send a message to your page! Magic:
 
@@ -92,7 +92,7 @@ project
 
 ### Step 3: But the Bot Doesn't Say Anything... Yet!
 
-Commit hash:
+Commit hash: b003d2d136b8e2b79c02af9e49004fbb814570b5
 
 So what have we done so far?
 - we set up a nodeJS server and ran it locally
@@ -111,17 +111,15 @@ curl -X POST -H "Content-Type: application/json" -d '{
     "id": "<PSID>"
   },
   "message": {
-    "text": "hello, world!"
+    "text": "hey!!!"
   }
 }' "https://graph.facebook.com/v2.6/me/messages?access_token=<PAGE_ACCESS_TOKEN>"
 ```
 
-which is the [official Facebook API](https://developers.facebook.com/docs/messenger-platform/reference/send-api/) method — cURL is a command line tool that allows us access HTTP methods...
-
-we can just write:
+which is the [official Facebook API](https://developers.facebook.com/docs/messenger-platform/reference/send-api/) method — cURL is a command line tool that allows us access HTTP methods — but look at how we don't even have to add a recipient id, or PSID, `bootbot` does it all for us, we can just write:
 
 ```
-chat.say('something');
+chat.say('hey!!!');
 ```
 
 which will allow our bot to respond to messages. Awesome.
@@ -129,3 +127,44 @@ which will allow our bot to respond to messages. Awesome.
 ![Imgur](https://i.imgur.com/eN7DH88.png)
 
 We didn't do much in this step coding-wise, but do try to understand the conceptual background stuff! Yay 4 servers.
+
+
+### Step 4: Some jokes?  Nah some API stuff first
+
+Commit hash:
+
+- so remember the idea behind the app was to respond to any message with a dadjoke, one way we could implement this is by storing a huge database of such jokes, and when we receive a message, pull one at random and send that to the user; but that'd involve a considerable amount of work.
+
+__enter the API__
+
+- if you've had one ear open around any tech-ish conversation, the term might be both familiar yet totally alien to you. Cool, we'll change that. API stands for application programming __interface__. Note the emphasis on that last word. The best way to conceptualize an API is to think of it as a structured framework for interacting with an application (via API requests)
+  - for example, every time you use Google Search, you're actually using Google's API. Behind the scenes, your search query is converted into key words, each of which corresponds to a Google function, e.g. try "define: serendipity", or "tech news site:reddit.com" as searches, Google returns different results based on the way you interacted with it; that's kind of the essence of an API.
+  - request + structured API -> predictable results
+
+__back to dadjokes__
+
+- luckily, there's a [dadjoke API](https://icanhazdadjoke.com/api). Cool. How do we use it? Well the website itself has a cURL example, which you can type straight into your terminal, try `curl -H "Accept: text/plain" https://icanhazdadjoke.com/`
+  - note that curl defaults to a GET request, so all it's doing is accessing the website (but not via browser), and retrieving the result in `text/plain`
+
+![Imgur](https://i.imgur.com/qi8npmo.png)
+
+- a nice GUI client for testing out API requests is [Postman](https://www.getpostman.com/), but that's beyond the scope of this exercise.
+- in npm, we can implement HTTP requests with the npm package [https](https://www.npmjs.com/package/https), which we install via `npm install https`, we then require it at the top of our `index.js` file. We can comment out all our current code in `index.js`, and replace it with the example provided in the https documentation for a GET request:
+  - the request is directed towards Google, and the result is the stuff your browser turns into the Google homepage!
+(run with `npm start`)
+
+```
+const https = require('https');
+
+https.get('https://encrypted.google.com/', (res) => {
+  console.log('statusCode:', res.statusCode);
+  console.log('headers:', res.headers);
+
+  res.on('data', (d) => {
+    process.stdout.write(d);
+  });
+
+}).on('error', (e) => {
+  console.error(e);
+});
+```
