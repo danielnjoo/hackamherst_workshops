@@ -216,7 +216,7 @@ https.get(options, (res) => {
 
 ### Step 6: Jokes + Messenger
 
-Commit hash:
+Commit hash: be3d0e6ce9f7adabfedd208ba9fbe99699feee5e
 
 - so now we're getting the jokes printed back to us in terminal... all we have to do is do this inside the `bot.on('message')` function, and pass our joke to `chat.say()`... try it yourself, if not scroll down:
 
@@ -255,3 +255,83 @@ bot.start();
 ```
 
 ![Imgur](https://i.imgur.com/92CJSGj.png)
+
+### Step 7: Extension: GIFs? Why not
+
+Commit hash:
+
+The documentation for the bootbot package has a video showing how to implement sending GIFs to the user. This is a fun feature to add; let's try it!
+
+- Let's refactor our code to only send a joke when it hears the word joke, and expecting a user to send a message in the format: "gif ____", we can use ____ to query GIPHY (which has a friendly API) to retrieve a GIF and send it to us. We really flex our bootbot skills here, by simply using the `chat.say()` method with extra options:
+
+```
+chat.say({
+	attachment: 'video',
+	url: 'http://example.com/video.mp4'
+});
+```
+
+- This is so much slicker than the FB API documentation equivalent.
+- First, we need to set up a GIPHY app, and save our API key, we copy this into GIPHY_URL variable, which we use later on... make sure to switch around the &____'s in the key, such that &q is at the end, e.g.:
+  - https://api.giphy.com/v1/gifs/search?api_key=__key__&limit=5&offset=0&rating=G&lang=en&q=, and not
+  https://api.giphy.com/v1/gifs/search?api_key=__key__&q=&limit=5&offset=0&rating=G&lang=en (the default)
+    - this is important, as we later concat our user's query to the end of this URL, and it won't work if &q (the query parameter) isn't at the end, more info on [URL encoding](https://en.wikipedia.org/wiki/Query_string)
+- we install the `node-fetch` npm package via `npm install node-fetch`, and require it
+- we also use a regular expression ([regex](https://en.wikipedia.org/wiki/Regular_expression), i.e. sophisticated string matching) pattern to  grab the ___ in our "gif ____" query.
+
+Our final code looks like:
+
+```
+require('dotenv').config(); // IGNORE IF NOT USING .ENV FILE
+
+const https = require('https')
+const BootBot = require('bootbot');
+const fetch = require('node-fetch');
+const GIPHY_URL = process.env.giphyAPI // FILL IN WITH UR INFO
+const bot = new BootBot({
+  accessToken: process.env.accessToken, // FILL IN WITH UR INFO
+  verifyToken: 'super_secure_password', // EXAMPLE PW
+  appSecret: process.env.appSecret // FILL IN WITH UR INFO
+})
+
+const options = {
+  host: 'icanhazdadjoke.com',
+  path: '/',
+  headers: {
+    'Accept': 'text/plain',
+    'User-Agent': 'My Facebook Page (https://www.facebook.com/DadBot-288767724972679/)' // this part is optional, but good practice so the owner of the website knows who's sending him requests
+  }
+}
+
+bot.hear('joke', (payload, chat) => {
+  console.log('message received')
+  https.get(options, (res) => {
+    res.on('data', (d) => {
+      chat.say(d.toString('utf8'));
+    });
+  }).on('error', (e) => {
+    console.error(e);
+  });
+});
+
+bot.hear(/gif (.*)/i, (payload, chat, data) => {
+  const query = data.match[1]; // this gets the word after gif in the facebook message, and is explained in the bootbot documentation and uses regular expression (regex) patterns
+  console.log('user asked for: ', query);
+  fetch(GIPHY_URL + query)
+    .then(res => res.json())
+    .then(json => {
+      console.log(json);
+      chat.say({
+        attachment: 'image',
+        url: json.data[0].images.fixed_height.url
+      })
+    })
+})
+
+
+bot.start();
+```
+
+  - note the `.then()`, which you'll see a lot of in JavaScript, [more info](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then), and the arrow functions `somefun(thing => console.log(thing))`, [more info](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
+
+- run with `npm start`, and test it out in Messenger :)
