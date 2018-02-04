@@ -60,7 +60,7 @@ project
 
 ### Step 2: Bot Operational
 
-Commit hash:
+Commit hash: 6c4e8ca5e642036bae991d6da58a7e938b1fce5b
 
 - install the `bootbot` package via npm: `npm install bootbot`
   - npm is the JS equivalent of pip, installing it will create a new folder `node_modules` in your project directory, and a `package-lock.json` file
@@ -75,7 +75,6 @@ project
       |-- some other stuff
 |-- package.json
 |-- package-lock.json
-|-- index.js
 ```
 
 - next, we'll add the two keys that we copied from earlier into the bot config settings, in the line starting `const bot = new BootBot({...})`, make sure the keys are enclosed in 's as they are strings!
@@ -85,8 +84,48 @@ project
 - then you'll need to __subscribe__ Messenger to your page
 - finally, fill in the Verify Token field which will correspond to whatever `verifyToken` you set in the bootbot configs; it should look like this:
 
-![alt text](https://imgur.com/a/Q7ugc)
+![Imgur](https://i.imgur.com/a/Q7ugc.png)
 
 - run `npm start`, and send a message to your page! Magic:
 
-![alt text](https://imgur.com/a/X7HD7)
+![Imgur](https://i.imgur.com/OHWTpZZ.png)
+
+### Step 3: But the Bot Doesn't Say Anything... Yet!
+
+Commit hash:
+
+So what have we done so far?
+- we set up a nodeJS server and ran it locally
+- we connected our server via ngrok to a http address
+- we connected our Facebook app (which is subscribed to a page) to this address -> (via ngrok) -> our local server
+- and so we were able to detect the message received by the Facebook page, and demonstrated this via the `console.log()`
+- cool!!! now let's get our bot to actually say something, here we refer to the [bootbot documentation](https://github.com/Charca/bootbot), which very helpfully tells us all the methods available to us.
+  - the beauty of packages and developers is that they abstract away a lot of stuff we'd otherwise have to do:)
+
+For example, instead of writing into our app:
+
+```
+curl -X POST -H "Content-Type: application/json" -d '{
+  "messaging_type": "<MESSAGING_TYPE>",
+  "recipient": {
+    "id": "<PSID>"
+  },
+  "message": {
+    "text": "hello, world!"
+  }
+}' "https://graph.facebook.com/v2.6/me/messages?access_token=<PAGE_ACCESS_TOKEN>"
+```
+
+which is the [official Facebook API](https://developers.facebook.com/docs/messenger-platform/reference/send-api/) method — cURL is a command line tool that allows us access HTTP methods...
+
+we can just write:
+
+```
+chat.say('something');
+```
+
+which will allow our bot to respond to messages. Awesome.
+
+![Imgur](https://i.imgur.com/eN7DH88.png)
+
+We didn't do much in this step coding-wise, but do try to understand the conceptual background stuff! Yay 4 servers.

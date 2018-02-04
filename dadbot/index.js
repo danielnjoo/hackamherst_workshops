@@ -1,14 +1,15 @@
-require('dotenv').config(); // IGNORE
+require('dotenv').config(); // IGNORE IF NOT USING .ENV FILE
 
 const BootBot = require('bootbot');
 const bot = new BootBot({
-  accessToken: process.env.accessToken,
-  verifyToken: 'super_secure_password',
-  appSecret: process.env.appSecret
+  accessToken: process.env.accessToken, // FILL IN WITH UR INFO
+  verifyToken: 'super_secure_password', // EXAMPLE PW
+  appSecret: process.env.appSecret // FILL IN WITH UR INFO
 })
 
 bot.on('message', (payload, chat) => {
   console.log('message received')
+  chat.say('hey!!!');
 });
 
 bot.start();
