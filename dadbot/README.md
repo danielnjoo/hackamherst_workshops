@@ -131,7 +131,7 @@ We didn't do much in this step coding-wise, but do try to understand the concept
 
 ### Step 4: Some jokes?  Nah some API stuff first
 
-Commit hash:
+Commit hash: 9d1937225ea326e5fda03fd9ef746073c4d2b99e
 
 - so remember the idea behind the app was to respond to any message with a dadjoke, one way we could implement this is by storing a huge database of such jokes, and when we receive a message, pull one at random and send that to the user; but that'd involve a considerable amount of work.
 
@@ -168,3 +168,48 @@ https.get('https://encrypted.google.com/', (res) => {
   console.error(e);
 });
 ```
+
+
+### Step 5: Onto the good stuff
+
+Commit hash:
+
+- so let's get those jokes. Again referring to the https documentation (a really important skill you'll have to pick up when there aren't any more tutorials!) we can see that the `https.get()` method takes an `options` object, and a `callback` function. The object basically sets the parameters of our request (as we did via with the hyphens in the cURL request), and the callback lets us use the results of our request because it's executed after the main function is called; it's a little confusing:
+  - according to MDN: A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action, [link](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function)
+- we our options thus:
+
+```
+const options = {
+  host: 'icanhazdadjoke.com',
+  path: '/',
+  headers: { 'Accept': 'text/plain'}
+}
+```
+
+- and refactor our request to:
+
+```
+https.get(options, (res) => {
+  res.on('data', (d) => {
+    console.log(d);
+  });
+}).on('error', (e) => {
+  console.error(e);
+});
+```
+
+- try running `npm start` now, what do you get? Something that looks like <Buffer 49 e2 80 99 6d 20 72 65 61 64 69 6e 67 20 61 20 62 6f 6f 6b 20 6f 6e 20 74 68 65 20 68 69 73 74 6f 72 79 20 6f 66 20 67 6c 75 65 20 e2 80 93 20 63 61 ... > ? Oh no. That's not a very funny joke.
+- if we Google this problem (another super important developer skill), looking for "why am i receiving a buffer in api request", we come across the [following](https://stackoverflow.com/questions/32217943/not-getting-proper-response-in-node-js-by-using-node-rest-client-middleware), which tells us to refactor how we print `d`, our data.
+  - refactor the request to:
+
+```
+https.get(options, (res) => {
+  res.on('data', (d) => {
+    console.log(d.toString('utf8'));
+  });
+}).on('error', (e) => {
+  console.error(e);
+});
+```
+
+- run `npm start` again. Awesome.

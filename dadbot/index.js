@@ -16,15 +16,16 @@ const https = require('https')
 //
 // bot.start();
 
+const options = {
+  host: 'icanhazdadjoke.com',
+  path: '/',
+  headers: { 'Accept': 'text/plain'}
+}
 
-https.get('https://encrypted.google.com/', (res) => {
-  console.log('statusCode:', res.statusCode);
-  console.log('headers:', res.headers);
-
+https.get(options, (res) => {
   res.on('data', (d) => {
-    process.stdout.write(d);
+    console.log(d.toString('utf8'));
   });
-
 }).on('error', (e) => {
   console.error(e);
 });
