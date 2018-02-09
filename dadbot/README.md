@@ -258,7 +258,7 @@ bot.start();
 
 ### Step 7: Extension: GIFs? Why not
 
-Commit hash:
+Commit hash: 42b352a0e6be56e6abbaaca0d1c7811cd83f7e59
 
 The documentation for the bootbot package has a video showing how to implement sending GIFs to the user. This is a fun feature to add; let's try it!
 
@@ -335,3 +335,10 @@ bot.start();
   - note the `.then()`, which you'll see a lot of in JavaScript, [more info](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then), and the arrow functions `somefun(thing => console.log(thing))`, [more info](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
 
 - run with `npm start`, and test it out in Messenger :)
+
+### Step 8: moar extension - possible ideas
+
+- call a weather API, and fetch the weather
+- implement [quickReplies](https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies)
+  - try the location quickReply
+- {your idea} 
