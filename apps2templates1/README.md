@@ -40,8 +40,17 @@ __Resources for building__
 - user returns to website and enters his/her name and gets a time/place if there's a match
 
 #### Step 0: cloning a boilerplate
+Commit hash: 3c59a05dff02e9a06657be6eb8509e739f513d0b
 - we use [this boilerplate](https://github.com/realpython/flask-boilerplate), which is certainly over-engineered for our purposes
-- it's inside the boilerplate folder, note there is some set-up required
+- it's inside the boilerplate folder, note there is some set-up required, this is detailed inside the README, but essentially:
+
+```
+cd flask-boilerplate
+virtualenv --no-site-packages env
+source env/bin/activate
+pip install -r requirements.txt
+python app.py
+```
 
 Structure:
 ```
@@ -55,6 +64,7 @@ hack-workshops
 
 #### Step 1: Google Form and Google Sheet
 - create a simple Google Form, and attach the results to a Google Sheet
+- link the Form, change some HTML
 
 __Potential improvements__
 - lack of data privacy: if you inspect the website and find the Google Sheet URL, you can access all the data

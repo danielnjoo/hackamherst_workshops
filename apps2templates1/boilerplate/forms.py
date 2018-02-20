@@ -4,6 +4,9 @@ from wtforms.validators import DataRequired, EqualTo, Length
 
 # Set your classes here.
 
+class TakeForm(Form):
+    name = TextField('name')
+    password = PasswordField()
 
 class RegisterForm(Form):
     name = TextField(

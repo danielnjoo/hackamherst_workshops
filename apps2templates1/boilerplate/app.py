@@ -46,9 +46,14 @@ def home():
     return render_template('pages/placeholder.home.html')
 
 
-@app.route('/about')
+@app.route('/take', methods=['GET', 'POST'])
 def about():
-    return render_template('pages/placeholder.about.html')
+    if request.method == "GET":
+        form = TakeForm(request.form)
+        return render_template('forms/take.html', form=form)
+    if request.method == "POST":
+        print(request.values)
+        return render_template('pages/placeholder.about.html', data=request.values)
 
 
 @app.route('/login')
