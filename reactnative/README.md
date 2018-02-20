@@ -59,7 +59,7 @@ We're going to be using some component libraries to minimize the amount of styli
 ```
 import { StyleSheet, Text, View, ImageBackground, TextInput } from 'react-native';
 import { Button } from 'react-native-elements'
-``` 
+```
 - We're going to set up the front-end with some quick & dirty JSX. JSX is the HTML-like code that we see in App.js (with the `<Text></Text>` tags, etc.)
 - Toss in the JSX framework:
 ```
@@ -143,7 +143,7 @@ That code should be pretty self explanatory if you've ever seen much CSS and Fle
 Try reloading the app, and take a look! Next, we're going to set up the back-end to validate user input.
 
 
-### Step 3: Backend with Firebase 
+### Step 3: Backend with Firebase
 Commit hash: 99f298b925f79efd779cb26e12db9db5d532e927
 
 Traditionally backend is a pain. When building JavaScript projects, many developers turn to frameworks such as Django (for Python) or Node.js. Django and Node.js are still essential for large projects requiring significant control and customization, but to get up and running quickly, we're going to use Google's free backend API: Firebase.
@@ -155,7 +155,7 @@ There's two components to this section. The remote setup on the Firebase website
   - Create a new project and name it `LoginApp`. It'll take a few seconds to set up your project.
   - Hit "Get Started" under the `Authentication` panel, and set up a sign-in method. We're going to be using email/password for simplicity.
   - Toggle to the `USERS` tab and add a user - yourself. Make sure you remember your username/password combination.
-  - Click the `WEB SETUP` near the top left of the page. You'll need this information later, so keep that tab handy.
+  - Click the `WEB SETUP` near the top right of the page. You'll need this information later, so keep that tab handy.
 - Local configuration:
   - We're going to need the `firebase` package, so `yarn install firebase`
   - Open up `App.js`
@@ -178,7 +178,7 @@ There's two components to this section. The remote setup on the Firebase website
 
   That's it for the back end! Next, we're going to set our App up to actually validate.
 
-  ### Step 4: Validation and finishing touches 
+  ### Step 4: Validation and finishing touches
   Commit hash: d211bd1b20561ba929f43f2ac76fbb86d68563c6
 
   Our backend is set up, and we've created a user. Now's the time to make it functional. First, a couple housekeeping items:
@@ -228,8 +228,7 @@ There's two components to this section. The remote setup on the Firebase website
   }
   ```
 
-  That's it. We're done. Of course, there's so much more to do before this becomes a marginally functional log-in app, but I'll leave the rest to google. For instance nothing really happens when we log in. In the future, we might want to set up some routing so that it changes screens after a successful login attempt. Or, we might want to add a "create account" option. 
+  That's it. We're done. Of course, there's so much more to do before this becomes a marginally functional log-in app, but I'll leave the rest to google. For instance nothing really happens when we log in. In the future, we might want to set up some routing so that it changes screens after a successful login attempt. Or, we might want to add a "create account" option.
 
   Cheers,
   Nate
-
