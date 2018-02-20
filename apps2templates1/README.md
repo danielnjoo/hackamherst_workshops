@@ -122,12 +122,65 @@ print(reader)
 ```
 
 #### Step 3: Apply Logic
+Commit hash: 135c6b2754208fae2a913e8c6d219722f4fd94ca
+Commit diff: [link](https://github.com/danielnjoo/hackamherst_workshops/commit/135c6b2754208fae2a913e8c6d219722f4fd94ca)
 
 - we need to do some matching:
   - we have a needle (person to match) that looks like  [0,1,1,0], and
   - a haystack (people to match with) that looks like [[1,1,0,0],[0,0,1,0]], in which case we'd want [1] and [2] (indices are 0-indexed) returned so we know which people to match with and on which days... we'd map these back to a dictionary with the days and meals
   - there are many ways to do this...
-- 
+
+I ended up amending the `about.html` thus:
+```
+<p class="lead">hello {{name}}</p>
+
+<p>{{result}}</p>
+ ```
+and adding the following to `app.py`:
+
+```
+if request.method == "POST":
+
+    nameToSearch = request.form['name']
+    print(nameToSearch)
+
+    url = '___your url____'
+    r = requests.get(url)
+    text = r.iter_lines()
+    reader = list(csv.reader(text, delimiter=','))
+
+    names = [item[1] for item in reader[1:len(reader)]]
+    meals = [item[2:len(item)] for item in reader[1:len(reader)]]
+
+    dayMealDict = {0: 'monday lunch', 1: 'tuesday lunch', 2: 'wednesday lunch', 3: 'thursday lunch', 4: 'friday lunch',
+    5: 'monday dinner', 6: 'tuesday dinner', 7: 'wednesday dinner', 8: 'thursday dinner', 9: 'friday dinner'}
+
+    if nameToSearch in names:
+        nameIndex = names.index(nameToSearch)
+        needleMeals = meals[nameIndex]
+        haystackMeals = (meals[:nameIndex]+meals[nameIndex+1:len(meals)])
+        matches = []
+        for sublist in (haystackMeals):
+            # print(needleMeals)
+            # print(sublist)
+            matches.append([i for i, item in enumerate(sublist) if sublist[i]=='yes' and needleMeals[i] == 'yes'])
+        # print(matches)
+        if (len(matches)>1):
+            personMatch = randint(0,len(matches)-1) #pick a random match
+            match = matches[personMatch]
+        else:
+            personMatch = 0
+            match  = matches[0]
+        dayofMatch = match[randint(0,len(match)-1)] #pick a random day to match
+        print('so the ',  personMatch, ' th index of all other people to match should match with ', nameToSearch, ' on ', dayMealDict[dayofMatch])
+
+        result = 'your date is on ' + dayMealDict[dayofMatch]
+
+    else:
+        result = 'no match'
+
+    return render_template('pages/placeholder.about.html', name=nameToSearch, result=result)
+ ```
 
 __Potential improvements__
 - most crucically: after matches are made, there's no confirmation that they'll go; further, they can't be removed from the spreadsheet / dating pool

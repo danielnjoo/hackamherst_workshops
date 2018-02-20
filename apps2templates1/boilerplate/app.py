@@ -5,7 +5,7 @@ import csv
 import requests
 from random import randint
 
-from flask import Flask, render_template, request, json, jsonify
+from flask import Flask, render_template, request
 # from flask.ext.sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
@@ -64,7 +64,7 @@ def about():
         r = requests.get(url)
         text = r.iter_lines()
         reader = list(csv.reader(text, delimiter=','))
-        
+
         names = [item[1] for item in reader[1:len(reader)]]
         meals = [item[2:len(item)] for item in reader[1:len(reader)]]
 
