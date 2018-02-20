@@ -1,13 +1,17 @@
 #----------------------------------------------------------------------------#
 # Imports
 #----------------------------------------------------------------------------#
+import csv
+import requests
+from random import randint
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, json, jsonify
 # from flask.ext.sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
 from forms import *
 import os
+
 
 #----------------------------------------------------------------------------#
 # App Config.
@@ -52,8 +56,46 @@ def about():
         form = TakeForm(request.form)
         return render_template('forms/take.html', form=form)
     if request.method == "POST":
-        print(request.values)
-        return render_template('pages/placeholder.about.html', data=request.values)
+
+        nameToSearch = request.form['name']
+        print(nameToSearch)
+
+        url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT631ElTRFOLGOtJnNypmH3FGbEKcsJeW55DYti7nuobFCbH85ojsy5VrsASDZeTzAsnWsHMxVErQzu/pub?gid=917980352&single=true&output=csv'
+        r = requests.get(url)
+        text = r.iter_lines()
+        reader = list(csv.reader(text, delimiter=','))
+        
+        names = [item[1] for item in reader[1:len(reader)]]
+        meals = [item[2:len(item)] for item in reader[1:len(reader)]]
+
+        dayMealDict = {0: 'monday lunch', 1: 'tuesday lunch', 2: 'wednesday lunch', 3: 'thursday lunch', 4: 'friday lunch',
+        5: 'monday dinner', 6: 'tuesday dinner', 7: 'wednesday dinner', 8: 'thursday dinner', 9: 'friday dinner'}
+
+        if nameToSearch in names:
+            nameIndex = names.index(nameToSearch)
+            needleMeals = meals[nameIndex]
+            haystackMeals = (meals[:nameIndex]+meals[nameIndex+1:len(meals)])
+            matches = []
+            for sublist in (haystackMeals):
+                # print(needleMeals)
+                # print(sublist)
+                matches.append([i for i, item in enumerate(sublist) if sublist[i]=='yes' and needleMeals[i] == 'yes'])
+            # print(matches)
+            if (len(matches)>1):
+                personMatch = randint(0,len(matches)-1) #pick a random match
+                match = matches[personMatch]
+            else:
+                personMatch = 0
+                match  = matches[0]
+            dayofMatch = match[randint(0,len(match)-1)] #pick a random day to match
+            print('so the ',  personMatch, ' th index of all other people to match should match with ', nameToSearch, ' on ', dayMealDict[dayofMatch])
+
+            result = 'your date is on ' + dayMealDict[dayofMatch]
+
+        else:
+            result = 'no match'
+
+        return render_template('pages/placeholder.about.html', name=nameToSearch, result=result)
 
 
 @app.route('/login')

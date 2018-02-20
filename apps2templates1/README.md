@@ -62,14 +62,76 @@ hack-workshops
 |-- other workshops
 ```
 
+- take some time to understand how the current project is set-up, go through the pages, view the console, etc.
+
 #### Step 1: Google Form and Google Sheet
+Commit hash: 1738268e516ce14bfd3cc1f2d92778f7e0acac8e
+Commit diff: [link](https://github.com/danielnjoo/hackamherst_workshops/commit/1738268e516ce14bfd3cc1f2d92778f7e0acac8e)
+
 - create a simple Google Form, and attach the results to a Google Sheet
-- link the Form, change some HTML
+  - Publish the Google Sheet to the web as a CSV, and
+- get the Form's link then:
+  - we have a two page app, home/about and take, so we can uncomment out the third navBar option (comment out lines 56-68 in `templates/layouts/main.html`)
+    - I renamed the second option in `main.html` from about to take
+      - note that our layout file is still `placeholder.about.html`, we could rename this, but it's require some refactoring elsewhere - it's definitely good practice to do so
+  - we edit both pages' HTMLs in `templates/pages/`
+  - we create a form for `take.html` which just asks for a person's name by copying the layout of the other forms (liquid templating ftw)
+
+  ```
+  {% extends 'layouts/form.html' %}
+  {% block title %}Login{% endblock %}
+  {% block content %}
+    <form method="post" class="form">
+      <h3 class="form-heading">Take <a href="{{ url_for('home') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
+      {{form.name( placeholder=form.name.label.text, required=true)}}
+    </form>
+  {% endblock %}
+  ```
+
+  - we add this class to our `forms.py`:
+
+  ```
+  class TakeForm(Form):
+    name = TextField('name')
+    password = PasswordField()
+  ```
+
+  - and then update our `apps.py` routes:
+
+  ```
+  @app.route('/take', methods=['GET', 'POST'])
+  def about():
+      if request.method == "GET":
+          form = TakeForm(request.form)
+          return render_template('forms/take.html', form=form)
+      if request.method == "POST":
+          print(request.values)
+          return render_template('pages/placeholder.about.html', data=request.values)
+  ```
+
+#### Step 2: Pull Data From the Google Sheet
+
+- we import `csv` and `requests` and make a GET request to our Google Sheet URL to grab the data, check that this works
+
+```
+url = '___your url ____'
+r = requests.get(url)
+text = r.iter_lines()
+reader = list(csv.reader(text, delimiter=','))
+print(reader)
+```
+
+#### Step 3: Apply Logic
+
+- we need to do some matching:
+  - we have a needle (person to match) that looks like  [0,1,1,0], and
+  - a haystack (people to match with) that looks like [[1,1,0,0],[0,0,1,0]], in which case we'd want [1] and [2] (indices are 0-indexed) returned so we know which people to match with and on which days... we'd map these back to a dictionary with the days and meals
+  - there are many ways to do this...
+- 
 
 __Potential improvements__
-- lack of data privacy: if you inspect the website and find the Google Sheet URL, you can access all the data
-  - what you could do: implement a database; equally you could implement the whole project as a Messenger Bot and you no longer need to design a front-end
-- additionally, people could enter other people's names and snoop in that way
+- most crucically: after matches are made, there's no confirmation that they'll go; further, they can't be removed from the spreadsheet / dating pool
+- data privacy: people could enter other people's names and snoop in that way
   - implement a confirmation code
 - also problematic is that users have to keep coming back to the website to check if they got a date
   - you could implement an email/text notification system
