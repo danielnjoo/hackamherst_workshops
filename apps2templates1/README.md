@@ -195,7 +195,9 @@ __Potential improvements__
 - user uploads photo
 - users can view all uploaded photos
 
-#### Step 0: cloning a boilerplate
+#### Step 4: Cloning A Boilerplate
+Commit hash: c41a2a2a69b49fe34cb2a9509d093d90a52d8bf2
+
 - we previously used a Flask boilerplate, this time we're going to use a nodeJS boilerplate :), we use [this](https://github.com/sahat/hackathon-starter) one, `git clone` it
 - cd into the folder and install the requirements `npm install`
 - try running `npm start`, it'll bug out as you need a local mongodb server running, if you haven't this up on your computer before then
@@ -205,9 +207,32 @@ __Potential improvements__
     - create a new Terminal window, and make the data/db folder with admin permissions, and give yourself permissions to this folder, the command is `sudo mkdir -p /data/db`
 - now try running `mongod`, `mongod --dbpath /data/db`, `mongod --dbpath ~/data/db`
 - `npm start` again
-- isn't the template beautiful?
+- isn't the template beautiful? View it in `localhost:8080`
 
+#### Step 5: Fixing Uploads
+Commit hash:
+Commit diff: [link]()
 
+- try uploading a photo in the API page, see how it goes to the upload folder automatically? Try opening a file
+- current problem: the files aren't encoded, i.e. have no file type, and thus all we get is binary
+- let's add an uploads folder to public an consider our problem...
+  - you might Google 'multer file uploading without extension', and find [this](https://github.com/expressjs/multer/issues/170), which tells us to
+  - replace the multer and upload declarations in `app.js` with:
+
+```
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, 'public/uploads'))
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname);
+  }
+});
+
+const upload = multer({ storage });
+```
+
+- cool this works
 
 __Potential improvements__
 - up/down vote photos, prioritize highly voted photos
