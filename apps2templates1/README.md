@@ -210,8 +210,8 @@ Commit hash: c41a2a2a69b49fe34cb2a9509d093d90a52d8bf2
 - isn't the template beautiful? View it in `localhost:8080`
 
 #### Step 5: Fixing Uploads
-Commit hash:
-Commit diff: [link]()
+Commit hash: 36252e9034673f422c4ca57b5a71dded58cd9371
+Commit diff: [link](https://github.com/danielnjoo/hackamherst_workshops/commit/36252e9034673f422c4ca57b5a71dded58cd9371)
 
 - try uploading a photo in the API page, see how it goes to the upload folder automatically? Try opening a file
 - current problem: the files aren't encoded, i.e. have no file type, and thus all we get is binary
@@ -233,6 +233,40 @@ const upload = multer({ storage });
 ```
 
 - cool this works
+
+#### Step 6: Displaying Uploads
+Commit hash:
+Commit diff: [link](https://github.com/danielnjoo/hackamherst_workshops/commit/)
+
+- we need to do a few things:
+  - 1) make all the files in the `public/uploads` folder available to the website
+  - 2) amend the `app.js` route for the GET `/` route, such that it passes all the file names in the `public/uploads` folder  to the pug template
+    - notice how this route actually calls a script in the controllers folder, that's the file we need to amend `controllers/home.js`
+  - 3) edit the `views/home.pug` such that it iterates through the file names passed to it and displays the images
+
+- Go to `controllers/home.js`, we'll use the `fs` package to read the files in the appropriate directory and `fs.readdirSync()` to do what we want synchronously... so it doesn't load the page before it has the array of images' filepaths, we then pass this to the render function
+
+My code:
+
+```
+const fs = require('fs');
+exports.index = (req, res) => {
+  images = [];
+
+  fs.readdirSync('./public/uploads').forEach(file => {
+    console.log(file);
+    images.push(file)
+  })
+
+  console.log(images)
+  res.render('home', {
+    title: 'Home',
+    images
+  });
+};
+```
+
+- restart the website and see if you get the image names in the console
 
 __Potential improvements__
 - up/down vote photos, prioritize highly voted photos
