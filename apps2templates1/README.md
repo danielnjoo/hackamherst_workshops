@@ -234,9 +234,9 @@ const upload = multer({ storage });
 
 - cool this works
 
-#### Step 6: Displaying Uploads
-Commit hash:
-Commit diff: [link](https://github.com/danielnjoo/hackamherst_workshops/commit/)
+#### Step 6: Displaying Uploads Part A
+Commit hash: 021bf5609ca8a635503249a2d45f5b56dfc584f5
+Commit diff: [link](https://github.com/danielnjoo/hackamherst_workshops/commit/021bf5609ca8a635503249a2d45f5b56dfc584f5)
 
 - we need to do a few things:
   - 1) make all the files in the `public/uploads` folder available to the website
@@ -267,6 +267,25 @@ exports.index = (req, res) => {
 ```
 
 - restart the website and see if you get the image names in the console
+
+#### Step 7: Displaying Uploads Part B
+Commit hash:
+Commit diff: [link](https://github.com/danielnjoo/hackamherst_workshops/commit/)
+
+- we amend the `views/home.pug` file to iterate through the array we passed it and display the images, replace everything below the `hr` line with:
+  - pug is a templating language like handlebars, both are very popular, it's like HTML for pros who don't want to type as much... in the hackathon or for your own project feel free to turn of the templating options,  i.e. in `app.js` it would be line 74. If you do so make sure all the templates/static files you render are HTML
+
+```
+for image in images
+  .image-block
+  img.image(src="public/uploads/" + image )
+```
+
+- try running it; it tries to display an image but if you view in the error in the console debugger (Chrome Dev Tools:  CMD+ALT+I), it says that it can't 'Failed to load resource...', i.e. it can't find the file; this is part (1) of the 3 steps we outlined earlier
+  - you might Google 'express public folder not working', and find [this](https://stackoverflow.com/questions/24433733/learning-node-express-public-folder-not-working)
+  - it tells us to replace line 126 in `app.js` with `app.use("/public", express.static(path.join(__dirname, 'public')));`
+- done!
+
 
 __Potential improvements__
 - up/down vote photos, prioritize highly voted photos

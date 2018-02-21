@@ -123,7 +123,9 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.use("/public", express.static(path.join(__dirname, 'public')));
+// https://stackoverflow.com/questions/24433733/learning-node-express-public-folder-not-working
+
 
 /**
  * Primary app routes.
