@@ -41,7 +41,7 @@ __Resources for building__
 
 #### Step 0: cloning a boilerplate
 Commit hash: 3c59a05dff02e9a06657be6eb8509e739f513d0b
-- we use [this boilerplate](https://github.com/realpython/flask-boilerplate), which is certainly over-engineered for our purposes
+- we use [this boilerplate](https://github.com/realpython/flask-boilerplate), which is certainly over-engineered for our purposes, , `git clone` it
 - it's inside the boilerplate folder, note there is some set-up required, this is detailed inside the README, but essentially:
 
 ```
@@ -188,3 +188,28 @@ __Potential improvements__
   - implement a confirmation code
 - also problematic is that users have to keep coming back to the website to check if they got a date
   - you could implement an email/text notification system
+
+
+### App2: Image Blog
+- user visits website
+- user uploads photo
+- users can view all uploaded photos
+
+#### Step 0: cloning a boilerplate
+- we previously used a Flask boilerplate, this time we're going to use a nodeJS boilerplate :), we use [this](https://github.com/sahat/hackathon-starter) one, `git clone` it
+- cd into the folder and install the requirements `npm install`
+- try running `npm start`, it'll bug out as you need a local mongodb server running, if you haven't this up on your computer before then
+  - use brew, a Mac package manager to install mongodb, `brew install mongodb`
+  - then try running `mongod`, note it's not mongodb, but just mongod (no b)
+    - this might bug out, complaining there is no db folder, [ta-dah!](https://stackoverflow.com/questions/7948789/mongodb-mongod-complains-that-there-is-no-data-db-folder), yeah I had this exact problem years ago
+    - create a new Terminal window, and make the data/db folder with admin permissions, and give yourself permissions to this folder, the command is `sudo mkdir -p /data/db`
+- now try running `mongod`, `mongod --dbpath /data/db`, `mongod --dbpath ~/data/db`
+- `npm start` again
+- isn't the template beautiful?
+
+
+
+__Potential improvements__
+- up/down vote photos, prioritize highly voted photos
+- allow submitters to tag photos and implement search by tag
+- general front-end beautification
